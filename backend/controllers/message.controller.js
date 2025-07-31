@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.models.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const getMessage = async (req, res) => {
   try {
@@ -9,7 +10,6 @@ export const getMessage = async (req, res) => {
       participants: { $all: [senderId, receiverId] }
     }).populate("messages")
     // populate() 方法用于填充引用的文档
-    console.log("conversation:", conversation);
 
     if (!conversation) {
       return res.status(200).json([]);
@@ -55,6 +55,13 @@ export const sendMessage = async (req, res) => {
       // await newMessage.save();    
       // 使用 Promise.all() 方法可以并行执行多个异步操作，提高性能
       await Promise.all([conversation.save(), newMessage.save()])
+
+      const receiverSocketId = getReceiverSocketId(receiverId)
+
+      if (receiverSocketId) {
+        // to： 给特定用户发送事件
+        io.to(receiverSocketId).emit('newMessage', newMessage)
+      }
     }
 
     res.status(201).json(newMessage);

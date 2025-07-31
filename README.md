@@ -24,8 +24,7 @@ openssl rand -base64 32
 
 ### 对话和消息 的结构
 
-```mermaid
-erDiagram
+```
     Conversation {
         _id  "对话唯一标识符" （MongoDB 自动生成）
         particpants "参与者数组"
@@ -39,3 +38,13 @@ erDiagram
         senderId "发送者用户 ID"
     }
 ```
+
+## 为什么要用 Socket.io
+
+### 没用 socket.io 之前
+
+![1](./笔记图片/Snipaste1.png)
+
+### 用 socket.io 之后
+
+![2](./笔记图片/Snipaste2.png)

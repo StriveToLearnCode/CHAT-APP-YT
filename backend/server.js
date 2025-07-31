@@ -10,8 +10,8 @@ import userRoutes from './routes/user.route.js'
 
 import connectToMongoDB from './db/connectMongoDB.js'
 import cookieParser from 'cookie-parser'
+import { app, server } from './socket/socket.js'
 
-const app = express()
 // env 环境变量
 const PROT = process.env.PROT || 5000
 
@@ -25,7 +25,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)
 app.use("/api/user", userRoutes)
 
-app.listen(PROT, () => {
+server.listen(PROT, () => {
   // 连接MongoDB
   connectToMongoDB()
   console.log(` 服务器已启动，端口：${PROT}`)
