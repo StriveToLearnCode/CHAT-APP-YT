@@ -18,7 +18,7 @@ export const SocketContextProvider = ({children}) => {
   useEffect(() => {
     // 如果有登录用户，就连接socket.io
     if(authUser) {
-      const socket = io('http://localhost:5000',{
+      const socket = io('https://chat-app-8uzk.onrender.com',{
         query:{
           userId:authUser._id
         }
