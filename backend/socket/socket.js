@@ -10,7 +10,7 @@ const server = http.createServer(app) // express server
 const io = new Server(server, {
   // 预防socket.io server跨域问题
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: ['https://chat-app-8uzk.onrender.com'],
     methods: ["GET", "POST"]
   }
 })  // 在 express server 里添加 socket.io server
