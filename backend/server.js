@@ -4,6 +4,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 
+import path from "path";
+
 import authRoutes from './routes/auth.route.js'
 import messageRoutes from './routes/message.route.js'
 import userRoutes from './routes/user.route.js'
@@ -15,6 +17,7 @@ import { app, server } from './socket/socket.js'
 // env 环境变量
 const PROT = process.env.PROT || 5000
 
+const __dirname = path.resolve();
 
 dotenv.config()
 // 使用中间件
@@ -24,6 +27,12 @@ app.use(cookieParser()) // 解析 Cookie
 app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)
 app.use("/api/user", userRoutes)
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 
 server.listen(PROT, () => {
   // 连接MongoDB
